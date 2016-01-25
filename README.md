@@ -22,7 +22,7 @@ Or use td-agent 1: (not recommeded. Use td-agent 2 instead)
 ##  Mail Configuration with out_keys (no auth)
 
     <match **>
-      type mail
+      @type mail
       host SMTPSERVER
       port 25
       from SOURCE
@@ -54,7 +54,7 @@ Email is sent like
 You may use `message` parameter to define mail format as you like. Use `\n` to put a return code.
 
     <match **>
-      type mail
+      @type mail
       host SMTPSERVER
       port 25
       from SOURCE
@@ -84,7 +84,7 @@ Email is sent like
 ## Mail Configuration for Gmail(use STARTTLS)
 
     <match **>
-      type mail
+      @type mail
       host smtp.gmail.com
       port 587
       domain gmail.com
@@ -111,12 +111,12 @@ use fluent_plugin_notifier(https://github.com/tagomoris/fluent-plugin-notifier)
 configure td-agent.conf for single node
 
     <source>
-      type tail
+      @type tail
       tag syslog
       path /var/log/syslog
     </source>
     <match syslog**>
-      type notifier
+      @type notifier
       <def>
         pattern check_syslog
         check string_find
@@ -133,7 +133,7 @@ configure td-agent.conf for single node
       </def>
     </match>
     <match notification**>
-      type mail
+      @type mail
       host MAILSERVER
       port MAILSERVER_PORT
       domain DOMAIN
@@ -153,9 +153,9 @@ use config_expander(https://github.com/tagomoris/fluent-plugin-config-expander)
 source node("/etc/td-agent/td-agent.conf")
 
     <source>
-      type config_expander
+      @type config_expander
       <config>
-        type tail
+        @type tail
         format syslog
         path /var/log/syslog
         tag syslog.${hostname}
@@ -163,7 +163,7 @@ source node("/etc/td-agent/td-agent.conf")
       </config>
     </source>a
     <match **>
-      type forward
+      @type forward
       <server>
         host HOST_ADDRESS
       </server>
@@ -173,16 +173,16 @@ source node("/etc/td-agent/td-agent.conf")
 log server("/etc/td-agent/td-agent.conf")
 
     <source>
-      type forward
+      @type forward
     </source>
     <match syslog**>
-      type copy
+      @type copy
       <store>
-        type file
+        @type file
         path /var/log-server/syslog
       </store>
       <store>
-        type notifier
+        @type notifier
         <def>
           pattern check_syslog
           check string_find
@@ -193,7 +193,7 @@ log server("/etc/td-agent/td-agent.conf")
       </store>
     </match>
     <match notification**>
-      type mail
+      @type mail
       host MAILSERVER
       port MAILSERVER_PORT
       domain DOMAIN
